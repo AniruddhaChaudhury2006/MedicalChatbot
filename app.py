@@ -10,8 +10,8 @@ from src.prompt import *
 import os
 app = Flask(__name__)
 load_dotenv()
-PINECONE_API_KEY = 'pcsk_6aiCki_CaSyz4Bj6e6RRogzezUSDAbDpmpHUhyecy31oUupqwRHhMwrmeFVGHcWyd4LWmD'
-GROQ_API_KEY = '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'
+PINECONE_API_KEY = '(Paste API Key)'
+GROQ_API_KEY = '(Paste API Key)'
 embeddings = download_hugging_face_embeddings()
 os.environ['PINECONE_API_KEY'] = PINECONE_API_KEY
 os.environ['GROQ_API_KEY'] = GROQ_API_KEY
