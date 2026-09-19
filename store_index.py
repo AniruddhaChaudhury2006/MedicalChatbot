@@ -5,7 +5,7 @@ from langchain_pinecone import PineconeVectorStore
 from src.helper import load_pdf_file, text_split, download_hugging_face_embeddings
 from dotenv import load_dotenv
 load_dotenv()
-PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')#'pcsk_6aiCki_CaSyz4Bj6e6RRogzezUSDAbDpmpHUhyecy31oUupqwRHhMwrmeFVGHcWyd4LWmD'
+PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
 os.environ['PINECONE_API_KEY'] = PINECONE_API_KEY
 data = r"C:\Users\Aniruddha Chaudhury\Documents\MedicalChatbot\Data"
 extracted_data = load_pdf_file(data)
