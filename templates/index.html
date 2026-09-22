@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MedAssist - Medical AI Assistant</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}?v=2">
+</head>
+
+
+<body>
+
+    <div class="app-container">
+
+        <!-- ================= SIDEBAR ================= -->
+        <aside class="sidebar">
+
+            <div class="logo-section">
+
+                <div class="logo-icon">
+                    ⚕
+                </div>
+
+                <div>
+                    <h2>MedAssist</h2>
+                    <p>Medical AI Assistant</p>
+                </div>
+
+            </div>
+
+
+            <div class="sidebar-content">
+
+                <h3>Quick Questions</h3>
+
+                <button class="quick-question"
+                        onclick="askQuestion('What is diabetes?')">
+                    What is diabetes?
+                </button>
+
+                <button class="quick-question"
+                        onclick="askQuestion('What are the symptoms of hypertension?')">
+                    Symptoms of hypertension
+                </button>
+
+                <button class="quick-question"
+                        onclick="askQuestion('What is acne?')">
+                    What is acne?
+                </button>
+
+                <button class="quick-question"
+                        onclick="askQuestion('What causes fever?')">
+                    What causes fever?
+                </button>
+
+            </div>
+
+
+            <div class="sidebar-footer">
+
+                <div class="footer-icon">
+                    ⚕
+                </div>
+
+                <div>
+                    <strong>Medical Information</strong>
+                    <p>For educational purposes only.</p>
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CHAT ================= -->
+        <main class="chat-container">
+
+            <!-- HEADER -->
+            <header class="chat-header">
+
+                <div class="header-left">
+
+                    <div class="doctor-icon">
+                        ⚕
+                    </div>
+
+                    <div class="header-text">
+
+                        <h1>Medical Assistant</h1>
+
+                        <p>
+                            Ask questions about medical conditions,
+                            symptoms and general health information.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="online-status">
+
+                    <span class="status-dot"></span>
+
+                    <span>Online</span>
+
+                </div>
+
+            </header>
+
+
+            <!-- ================= CHAT ================= -->
+            <section class="chat-messages"
+                     id="chatMessages">
+
+                <!-- Initial bot message -->
+                <div class="message bot-message">
+
+                    <div class="avatar bot-avatar">
+                        ⚕
+                    </div>
+
+                    <div class="message-content">
+
+                        <div class="message-name">
+                            MedAssist
+                        </div>
+
+                        <div class="message-bubble">
+
+                            Hello! I'm your medical AI assistant.
+                            How can I help you today?
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= TYPING ================= -->
+            <div class="typing-container"
+                 id="typingIndicator">
+
+                <div class="avatar bot-avatar">
+                    ⚕
+                </div>
+
+                <div class="typing-bubble">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= INPUT ================= -->
+            <footer class="chat-input-area">
+
+                <div class="input-container">
+
+                    <input
+                        type="text"
+                        id="messageInput"
+                        placeholder="Ask a medical question..."
+                        autocomplete="off"
+                    >
+
+                    <button
+                        id="sendButton"
+                        onclick="sendMessage()">
+
+                        <span>Send</span>
+
+                        <span class="send-icon">
+                            ➤
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+                <p class="disclaimer">
+                    ⚠ This assistant provides general medical information
+                    and is not a substitute for professional medical advice.
+                </p>
+
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        const messageInput =
+            document.getElementById("messageInput");
+
+        const sendButton =
+            document.getElementById("sendButton");
+
+        const chatMessages =
+            document.getElementById("chatMessages");
+
+        const typingIndicator =
+            document.getElementById("typingIndicator");
+
+
+        // Hide typing indicator initially
+        typingIndicator.style.display = "none";
+
+
+        // Press ENTER to send
+        messageInput.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    event.preventDefault();
+
+                    sendMessage();
+
+                }
+
+            }
+        );
+
+
+        // Quick question buttons
+        function askQuestion(question) {
+
+            messageInput.value = question;
+
+            sendMessage();
+
+        }
+
+
+        // Prevent HTML injection
+        function escapeHtml(text) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent = text;
+
+            return div.innerHTML;
+
+        }
+
+
+        // Add message to chat
+        function addMessage(message, sender) {
+
+            const messageDiv =
+                document.createElement("div");
+
+
+            if (sender === "user") {
+
+                messageDiv.className =
+                    "message user-message";
+
+
+                messageDiv.innerHTML = `
+
+                    <div class="message-content">
+
+                        <div class="message-name user-name">
+                            You
+                        </div>
+
+                        <div class="message-bubble user-bubble">
+                            ${escapeHtml(message)}
+                        </div>
+
+                    </div>
+
+                    <div class="avatar user-avatar">
+                        👤
+                    </div>
+
+                `;
+
+            }
+
+            else {
+
+                messageDiv.className =
+                    "message bot-message";
+
+
+                messageDiv.innerHTML = `
+
+                    <div class="avatar bot-avatar">
+                        ⚕
+                    </div>
+
+                    <div class="message-content">
+
+                        <div class="message-name">
+                            MedAssist
+                        </div>
+
+                        <div class="message-bubble">
+                            ${escapeHtml(message)}
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+
+            chatMessages.appendChild(messageDiv);
+
+
+            // Scroll to newest message
+            chatMessages.scrollTop =
+                chatMessages.scrollHeight;
+
+        }
+
+
+        // ================= SEND MESSAGE =================
+
+        async function sendMessage() {
+
+            const message =
+                messageInput.value.trim();
+
+
+            if (!message) {
+
+                return;
+
+            }
+
+
+            // Display user message
+            addMessage(
+                message,
+                "user"
+            );
+
+
+            // Clear input
+            messageInput.value = "";
+
+
+            // Show typing animation
+            typingIndicator.style.display =
+                "flex";
+
+
+            // Disable button
+            sendButton.disabled =
+                true;
+
+
+            try {
+
+                const response =
+                    await fetch("/get", {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            msg: message
+                        })
+
+                    });
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Server returned HTTP " +
+                        response.status
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                // Hide typing animation
+                typingIndicator.style.display =
+                    "none";
+
+
+                // Display AI response
+                addMessage(
+                    data.response,
+                    "bot"
+                );
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Chat error:",
+                    error
+                );
+
+
+                typingIndicator.style.display =
+                    "none";
+
+
+                addMessage(
+                    "Sorry, I couldn't connect to the medical assistant. Please check the Flask server.",
+                    "bot"
+                );
+
+            }
+
+
+            finally {
+
+                sendButton.disabled =
+                    false;
+
+                messageInput.focus();
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
