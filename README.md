@@ -348,8 +348,6 @@ Create a .env file in the project root:
     PINECONE_API_KEY=your_pinecone_api_key
     GROQ_API_KEY=your_groq_api_key
 
-Do not upload the .env file to GitHub.
-
 ### 5. Add the Medical PDF
 
 Create the Data directory if it does not already exist:
@@ -389,7 +387,7 @@ Run:
 
 The application will run on:
 
-    http://127.0.0.1:8080/
+    http://192.168.0.184:8080
 
 Open the address in your browser to use MedAssist.
 
