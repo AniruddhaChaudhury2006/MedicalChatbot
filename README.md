@@ -393,35 +393,6 @@ Open the address in your browser to use MedAssist.
 
 ---
 
-## 🔐 API Key Security
-
-API keys should never be published in a public GitHub repository.
-
-Use environment variables instead:
-
-    PINECONE_API_KEY=your_key
-    GROQ_API_KEY=your_key
-
-The .env file should remain private.
-
-A .gitignore file should contain entries such as:
-
-    .env
-    venv/
-    __pycache__/
-    *.pyc
-
-Never publish API keys inside:
-
-- Python files
-- Jupyter notebooks
-- README files
-- Screenshots
-- GitHub repositories
-- Public posts
-
----
-
 ## 🧪 Development Notebook
 
 The project contains a Jupyter notebook:
